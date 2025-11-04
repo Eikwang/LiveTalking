@@ -1,0 +1,36 @@
+face: 'F:\Projects\wav2lip\wav2lip_384\1.mp4'  # 视频路径
+audio: 'F:\Projects\wav2lip\wav2lip_384\output.wav'  # 音频路径
+outfile: 'F:\Projects\wav2lip\wav2lip_384\0101.mp4'  # 视频结果路径
+
+checkpoint_path: 'F:\Projects\wav2lip\wav2lip_384\checkpoints\wav2lip384.pth'  # 模型路径
+
+laplacian_kernel_size: 3
+laplacian_sigma: 1.5
+laplacian_weight: 0.1
+temporal_weight: 0.1
+# 默认参数（几乎不用修改）
+img_size: 384
+static: False
+fps: 25.0
+pads: [0, 0, 0, 0]
+face_det_batch_size: 4
+wav2lip_batch_size: 16
+resize_factor: 1
+crop: [0, -1, 0, -1]
+box: [-1, -1, -1, -1]
+rotate: False
+nosmooth: False
+temporal_window: 12
+alpha: 1.0
+margin: 0.1
+
+
+face_stabilizer:
+  temporal_window: 12
+  alpha: 1.0
+  margin: 0.1
+  pose_window: 5
+  max_pose_change: 0.1
+  mel_scaling_factor: 1
+
+face_predictor_path: 'checkpoints/shape_predictor_68_face_landmarks.dat'
