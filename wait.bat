@@ -1,2 +1,2 @@
-ffmpeg -i .\train_data\%1.mp4 -s 480x640 -vf fps=25 -qmin 1 -q:v 1 -start_number 0 data/customvideo/image/%%04d.png
+ffmpeg -i .\train_data\%1.mp4 -s %2x%3 -vf fps=25 -qmin 1 -q:v 1 -start_number 0 data/customvideo/image/%%04d.png
 ffmpeg -i .\train_data\%1.mp4 -vn -acodec pcm_s16le -ac 1 -ar 16000 data/customvideo/audio.wav

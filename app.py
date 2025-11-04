@@ -51,6 +51,9 @@ def build_nerfreal(sessionid:int)->BaseReal:
     if opt.model == 'wav2lip':
         from lipreal import LipReal
         nerfreal = LipReal(opt,model,avatar)
+    elif opt.model == 'wav2lip384':
+        from lipreal384 import LipReal384
+        nerfreal = LipReal384(opt,model,avatar)
     elif opt.model == 'musetalk':
         from musereal import MuseReal
         nerfreal = MuseReal(opt,model,avatar)
@@ -255,7 +258,7 @@ if __name__ == '__main__':
     parser.add_argument('--H', type=int, default=450, help="GUI height")
 
     #musetalk opt
-    parser.add_argument('--avatar_id', type=str, default='avator_1', help="define which avatar in data/avatars")
+    parser.add_argument('--avatar_id', type=str, default='wav2lip_avatar1', help="define which avatar in data/avatars")
     #parser.add_argument('--bbox_shift', type=int, default=5)
     parser.add_argument('--batch_size', type=int, default=16, help="infer batch")
 
@@ -268,7 +271,13 @@ if __name__ == '__main__':
     # parser.add_argument('--CHARACTER', type=str, default='test')
     # parser.add_argument('--EMOTION', type=str, default='default')
 
-    parser.add_argument('--model', type=str, default='musetalk') #musetalk wav2lip ultralight
+    parser.add_argument('--model', type=str, default='musetalk') #musetalk wav2lip wav2lip384 ultralight
+
+    # 面部融合参数
+    parser.add_argument('--enable_poisson', type=bool, default=True, help="启用泊松融合")
+    parser.add_argument('--enable_color_matching', type=bool, default=True, help="启用颜色匹配")
+    parser.add_argument('--enable_edge_smoothing', type=bool, default=True, help="启用边缘平滑")
+    parser.add_argument('--enable_noise_reduction', type=bool, default=True, help="启用降噪")
 
     parser.add_argument('--transport', type=str, default='rtcpush') #webrtc rtcpush virtualcam
     parser.add_argument('--push_url', type=str, default='http://localhost:1985/rtc/v1/whip/?app=live&stream=livestream') #rtmp://localhost/live/livestream
@@ -300,6 +309,12 @@ if __name__ == '__main__':
         model = load_model("./models/wav2lip.pth")
         avatar = load_avatar(opt.avatar_id)
         warm_up(opt.batch_size,model,256)
+    elif opt.model == 'wav2lip384':
+        from lipreal384 import LipReal384,load_model,load_avatar,warm_up
+        logger.info(opt)
+        model = load_model("./wav2lip384/checkpoints/wav2lip384.pth")
+        avatar = load_avatar(opt.avatar_id)
+        warm_up(opt.batch_size,model,384)
     elif opt.model == 'ultralight':
         from lightreal import LightReal,load_model,load_avatar,warm_up
         logger.info(opt)
